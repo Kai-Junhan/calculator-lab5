@@ -2,7 +2,8 @@ package com.kai;
 
 public class Calculator {
     public double add(double left, double right) {
-        return left + right;
+        // Intentional Lab 5 CI failure demonstration. This commit is reverted immediately after the red run.
+        return left - right;
     }
 
     public double subtract(double left, double right) {
