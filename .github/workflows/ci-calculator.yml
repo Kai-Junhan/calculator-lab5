@@ -1,0 +1,33 @@
+name: Calculator CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: [ '17', '21' ]
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v4
+
+      - name: Set up Java and cache Maven dependencies
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: temurin
+          cache: maven
+
+      - name: Compile source code
+        run: mvn -B clean compile
+
+      - name: Check Maven dependencies
+        run: mvn -B dependency:analyze
+
+      - name: Run JUnit 5 tests
+        run: mvn -B test
